@@ -17,12 +17,13 @@ import events from './events';
 const app = express();
 app.use(bodyParser.json());
 
-app.post('/github', (request, response, next) => {
+app.post('/github', (request, response) => {
   const event = request.get('X-GitHub-Event');
   console.log(`Received ${event} from github.`);
 
   if (event === undefined || !(event in events)) {
-    return next();
+    response.status(200).send('OK');
+    return;
   }
 
   events[event](request.body, github).then(() => {
@@ -32,7 +33,7 @@ app.post('/github', (request, response, next) => {
     response.status(500).send(err);
   });
 
-  return undefined;
+  return;
 });
 
 let server = null;
