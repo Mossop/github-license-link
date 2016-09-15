@@ -91,7 +91,7 @@ export default {
       return;
     }
 
-    if (payload.comment.body.match(/\bOK\b/)) {
+    if (payload.comment.body.match(/\bI understand\b/)) {
       await setUserUnderstood(user, repo, owner);
     }
   },
